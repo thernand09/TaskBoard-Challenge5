@@ -35,6 +35,25 @@ function createTaskCard(task) {
   // append card elements
   cardBody.append(cardDescription, cardDueDate, cardDeleteBtn);
   taskCard.append(cardHeader, cardBody);
+// Get today's date and the task's due date
+const today = new Date();
+const dueDate = new Date(task.dueDate);
+
+// Calculate the difference in days between today and the due date
+const timeDiff = dueDate.getTime() - today.getTime();
+const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+// Add background color based on days remaining
+if (daysDiff < 0) {
+  // Task is overdue
+  taskCard.addClass('bg-danger text-white');
+} else if (daysDiff <= 3) {
+  // Task is due soon (within 3 days)
+  taskCard.addClass('bg-warning text-dark');
+} else {
+  // Task is not due soon
+  taskCard.addClass('bg-primary text-white');
+}
 
   return taskCard;
 }
