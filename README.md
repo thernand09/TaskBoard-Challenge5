@@ -43,8 +43,8 @@ By clicking delete it will delete the added task
 ## Screenshots
 
 Add Task function displaying calendar for DueDate
-![alt text](./Develop/assets/images/Screenshot%202024-04-01%20154207.png)
+![alt text](./assets/images/Screenshot%202024-04-01%20154207.png)
 Displaying added task and background color based on Due Date
-![alt text](./Develop/assets/images/taskBoard-bgColor-Card.png)
+![alt text](./assets/images/taskBoard-bgColor-Card.png)
 Showing draggable feature
-![alt text](./Develop/assets/images/taskBoard-draggable.png)
+![alt text](./assets/images/taskBoard-draggable.png)
