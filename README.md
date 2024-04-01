@@ -24,7 +24,7 @@ THEN I am again presented with current and future conditions for that city
 ## Usage
 
 Link for Repo: https://github.com/thernand09/TaskBoard-Challenge5
-Link for Task-Board:
+Link for Task-Board: https://thernand09.github.io/TaskBoard-Challenge5/
 
 
 ## TryOuts
