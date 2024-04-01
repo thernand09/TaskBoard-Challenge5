@@ -22,10 +22,10 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
 ## Usage
-```
-Link for Repo:
+
+Link for Repo: https://github.com/thernand09/TaskBoard-Challenge5
 Link for Task-Board:
-```
+
 
 ## TryOuts
 ```
