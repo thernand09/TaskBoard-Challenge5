@@ -21,3 +21,30 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
+## Usage
+```
+Link for Repo:
+Link for Task-Board:
+```
+
+## TryOuts
+```
+Added modal to inde.html to be ablet to be able to create function in javascript to create cards on task-board.
+
+Added JavaScript function to be able to add task to the task board, to display cards created 
+
+By adding task using Day.js added function to display a calendar for dueDate.
+
+Then added background color on cards based on dueDate being entered.
+
+By clicking delete it will delete the added task 
+```
+
+## Screenshots
+
+Add Task function displaying calendar for DueDate
+
+Displaying added task and background color based on Due Date
+
+Showing draggable feature
+
