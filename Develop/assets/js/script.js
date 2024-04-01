@@ -1,12 +1,19 @@
 // Retrieve tasks and nextId from localStorage
-let taskList = JSON.parse(localStorage.getItem("tasks"));
-let nextId = JSON.parse(localStorage.getItem("nextId"));
-
+let taskList = JSON.parse(localStorage.getItem('tasks'));
+let nextId = JSON.parse(localStorage.getItem('nextId'));
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-localStorage.generateTaskId('nextID', JSON.stringify(nextID));
-return nextId++;
+  
+  if (nextId === null) {
+    nextId = 1;
+    // otherwise, increment it by 1
+  } else {
+    nextId++;
+  }
+  // save nextId to localStorage
+  localStorage.setItem('nextId', JSON.stringify(nextId));
+  return nextId;
 }
 
 // Todo: create a function to create a task card
@@ -25,39 +32,113 @@ function createTaskCard(task) {
     .attr('data-task-id', task.id);
   cardDeleteBtn.on('click', handleDeleteTask);
 
-cardBody.append(cardDescription, cardDueDate, cardDeleteBtn);
-taskCard.append(cardHeader, cardBody)
+  // append card elements
+  cardBody.append(cardDescription, cardDueDate, cardDeleteBtn);
+  taskCard.append(cardHeader, cardBody);
 
-const now = dayjs();
-const doneDate = dayjs(dueDate);
-const warningDate = dayjs(dueDate).subtract(3, 'day');
-
-return taskCard; 
+  return taskCard;
 }
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
+  
+  if (!taskList) {
+    taskList = [];
+  }
+  // empty task 
+  const todoList = $('#todo-cards');
+  todoList.empty();
 
+  const inProgressList = $('#in-progress-cards');
+  inProgressList.empty();
+
+  const doneList = $('#done-cards');
+  doneList.empty();
+
+  for (let task of taskList) {
+    if (task.status === 'to-do') {
+      todoList.append(createTaskCard(task));
+    } else if (task.status === 'in-progress') {
+      inProgressList.append(createTaskCard(task));
+    } else if (task.status === 'done') {
+      doneList.append(createTaskCard(task));
+    }
+  }
+  
+  $('.draggable').draggable({
+    opacity: 0.7,
+    zIndex: 100,
+    
+    helper: function (e) {
+      const original = $(e.target).hasClass('ui-draggable')
+        ? $(e.target)
+        : $(e.target).closest('.ui-draggable');
+      return original.clone().css({
+        maxWidth: original.outerWidth(),
+      });
+    },
+  });
 }
 
-// Todo: create a function to handle adding a new task
-function handleAddTask(event){
-
+/// Todo: create a function to handle adding a new task
+function handleAddTask(event) {
+  event.preventDefault();
+  const task = {
+    id: generateTaskId(),
+    title: $('#taskTitle').val(),
+    description: $('#taskDescription').val(),
+    dueDate: $('#taskDueDate').val(),
+    status: 'to-do',
+  };
+  
+  taskList.push(task);
+  localStorage.setItem('tasks', JSON.stringify(taskList));
+  renderTaskList();
+  $('#taskTitle').val('');
+  $('#taskDescription').val('');
+  $('#taskDueDate').val('');
 }
 
 // Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
-
+function handleDeleteTask(event) {
+  event.preventDefault();
+  const taskId = $(this).attr('data-task-id');
+  taskList = taskList.filter((task) => task.id !== parseInt(taskId));
+  localStorage.setItem('tasks', JSON.stringify(taskList));
+  renderTaskList();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
+  
+  const taskId = ui.draggable[0].dataset.taskId;
+  const newStatus = event.target.id;
 
+  for (let task of taskList) {
+    
+    if (task.id === parseInt(taskId)) {
+      task.status = newStatus;
+    }
+  }
+  
+  localStorage.setItem('tasks', JSON.stringify(taskList));
+  renderTaskList();
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-renderTaskList();
-
-
+  
+  renderTaskList();
+  
+  $('#taskForm').on('submit', handleAddTask);
+  
+  $('.lane').droppable({
+    accept: '.draggable',
+    drop: handleDrop,
+  });
+  // date picker
+  $('#taskDueDate').datepicker({
+    changeMonth: true,
+    changeYear: true,
+  });
 });
