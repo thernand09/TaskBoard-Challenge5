@@ -52,7 +52,7 @@ if (daysDiff < 0) {
   taskCard.addClass('bg-warning text-dark');
 } else {
   // Task is not due soon
-  taskCard.addClass('bg-primary text-white');
+  taskCard.addClass('text-black');
 }
 
   return taskCard;
